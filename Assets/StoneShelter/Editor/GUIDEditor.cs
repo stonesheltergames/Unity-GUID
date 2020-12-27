@@ -22,6 +22,7 @@ namespace StoneShelter{
                 GUIStyle style = EditorStyles.label;
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("m_guidPrefab"), new GUIContent("", serializedObject.FindProperty("m_guidPrefab").tooltip), GUILayout.Width(style.fontSize + EditorGUIUtility.standardVerticalSpacing));
                 bool curr = serializedObject.FindProperty("m_guidPrefab").boolValue;
+                if(curr != prev){
                     if(!prev && curr){
                         Debug.unityLogger.logEnabled = false;
                         ((GUID)serializedObject.targetObject).ResetGUID();
