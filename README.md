@@ -2,7 +2,7 @@
 Globally Unique Identifier
 
 An implementation of a GUID, it can be used standalone, with the **GUID component** provided, or inside any script which can derive from it.
-Unlike Unity's `Object.GetInstanceID()` this implementation is permanent as it gets serialized inside the component itself.
+Unlike Unity's `Object.GetInstanceID()` this implementation is persistent as it gets serialized inside the component itself.
 
 - [Installation](#installation)
 - [Usage (standalone)](#usage-standalone)
