@@ -4,6 +4,13 @@ Globally Unique Identifier
 An implementation of a GUID, it can be used standalone, with the **GUID component** provided, or inside any script which can derive from it.
 Unlike Unity's `Object.GetInstanceID()` this implementation is persistent as it gets serialized inside the component itself.
 
+#### Features
+- **Simple** - a single component
+- **Automated** - each GUID is automatically generated and can be edited, regenerated or reset
+- **Persistent** - no more Unity randomly regenerating InstanceIDs, as the GUIDs are serialized directly into the gameobjects
+- **Extensible** - add functionalities by inheriting from the GUID class, you can write your own Editor by inheriting from GUIDEditor too
+
+#### Guides
 - [Installation](#installation)
 - [Usage (standalone)](#usage-standalone)
 - [Usage (script inheritance)](#usage-script-inheritance)
@@ -30,7 +37,7 @@ You can inherit from the GUID script and add your own functionalities on top, re
 When you add a GUID component (or a component derived from it) for the first time to a gameobject a new GUID is automatically generated:  
 ![](https://www.stonesheltergames.com/wp-content/uploads/2020/12/GUIDGenerated.png)
 
-You can manually generate a new GUID or reset it (for example if you duplicated the gameobject) from the context menu by clicking on the three dots on top of the component and then clicking one of the options on the bottom:  
+You can manually generate a new GUID or reset it (for example if you duplicated the gameobject) from the context menu by clicking on the three dots on top of the component and then clicking one of the options on the bottom:
 ![](https://www.stonesheltergames.com/wp-content/uploads/2020/12/ContextMenu.png)
 
 ### Prefab workflow
