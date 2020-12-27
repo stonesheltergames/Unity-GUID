@@ -28,13 +28,13 @@ Unlike Unity's `Object.GetInstanceID()` this implementation is persistent as it 
 You can add the GUID component to any gameobject by clicking **Add Component > Stone Shelter > Core > GUID**  
 ![](https://www.stonesheltergames.com/wp-content/uploads/2020/12/AddComponent.png)
 
-### Scripting
-Inside your scripts you can retrieve the GUID from a gameobject by using `GetComponent<GUID>().guid` which will give you the current GUID as a string.  
-You can also retrieve any object from any scene with the static method `GUID.Find(guid)` where you can pass a guid as a string.
-
 ### Usage (script inheritance)
 You can inherit from the GUID script and add your own functionalities on top, remember to include the correct namespace by adding on top of your file:  
 `using StoneShelter;`
+
+### Scripting
+Inside your scripts you can retrieve the GUID from a gameobject by using `GetComponent<GUID>().guid` which will give you the current GUID as a string.  
+You can also retrieve any object from any scene with the static method `GUID.Find(guid)` where you can pass a guid as a string.
 
 ### GUID generation and reset
 When you add a GUID component (or a component derived from it) for the first time to a gameobject a new GUID is automatically generated:  
