@@ -6,6 +6,7 @@ using UnityEditor.Experimental.SceneManagement;
 using UnityEngine;
 
 namespace StoneShelter{
+    [AddComponentMenu("Stone Shelter/Core/GUID")]
     public class GUID : MonoBehaviour{
         // Static data
         public const string autogenerateValue = "AUTO";
