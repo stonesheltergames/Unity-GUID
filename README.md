@@ -21,6 +21,13 @@ Unlike Unity's `Object.GetInstanceID()` this implementation is persistent as it 
 ---
 
 ### Installation
+#### Package Manager via git URL
+1. Open Package Manager via Window > Package Manager
+2. Add package from git URL...
+3. Enter `https://github.com/stonesheltergames/Unity-GUID.git`
+<img width="500" alt="package-manager-install" src="https://user-images.githubusercontent.com/5909516/155850620-c7e7d61c-d6c2-4bf3-b84e-ba4bcd439ace.png">
+
+#### Manual install
 1. Download this repository or one of the Released **.unitypackage**s at https://github.com/stonesheltergames/Unity-GUID/releases
 2. Copy the files or extract the .unitypackage inside the root of your project (you can move the folder anywhere you need after that)
 
