@@ -1,0 +1,10 @@
+{
+	"name": "com.stoneshelter.guid",
+	"displayName": "Unity GUID",
+	"version": "1.0.2",
+	"unity": "2019.4",
+	"description": "Implementation of a persistent serializable GUID (Globally Unique Identifier) for Unity.",
+	"keywords": [
+		"guid"
+	]
+}
