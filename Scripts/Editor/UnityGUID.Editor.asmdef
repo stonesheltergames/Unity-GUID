@@ -1,7 +1,9 @@
 {
     "name": "UnityGUID.Editor",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:0e12a6d7b7e85f945859a7a5701337b5"
+    ],
     "includePlatforms": [
         "Editor"
     ],
