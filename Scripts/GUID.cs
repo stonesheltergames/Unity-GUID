@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
-using UnityEditor.Experimental.SceneManagement;
+using UnityEditor.SceneManagement;
 #endif
 using UnityEngine;
 
@@ -24,15 +24,36 @@ namespace StoneShelter{
             }
         }
 
-        /// <summary>
-        /// Finds an object by its GUID
-        /// </summary>
-        /// <param name="guid">unique identifier</param>
-        /// <returns>GUID if found, null otherwise</returns>
-        public static GUID Find(string guid){
+#if UNITY_EDITOR
+		[InitializeOnLoadMethod]
+		protected static void FixDuplicateGuids() {
+			EditorSceneManager.sceneSaving += (_, _) => Scene();
+			EditorSceneManager.sceneOpened += (_, _) => Scene();
+
+			void Scene(){
+				var guids = GameObject.FindObjectsOfType<GUID>(true).Where(g => g.guid != "" && g.guid != autogenerateValue);
+				foreach(var guid in guids) {
+					if(guids.Any(g => g.guid == guid.guid && g.GetInstanceID() != guid.GetInstanceID())) {
+						Debug.LogWarning(nameof(Component) + " " + guid.GetType().Name + " on " + nameof(GameObject) + " '" + guid.gameObject.name + "' has a duplicate " + nameof(GUID) + ", generating a new one", guid.gameObject);
+						
+						Debug.unityLogger.logEnabled = false;
+						guid.GenerateGUID();
+						Debug.unityLogger.logEnabled = true;
+					}
+				}
+			}
+		}
+#endif
+
+		/// <summary>
+		/// Finds an object by its GUID
+		/// </summary>
+		/// <param name="guid">unique identifier</param>
+		/// <returns>GUID if found, null otherwise</returns>
+		public static GUID Find(string guid){
 #if UNITY_EDITOR
 			if(!EditorApplication.isPlaying){
-                foreach(GUID gd in Resources.FindObjectsOfTypeAll<GUID>()) {
+                foreach(GUID gd in GameObject.FindObjectsOfType<GUID>(true)) {
                     if(gd.m_guid == guid)
                         return gd;
                 }
@@ -40,7 +61,7 @@ namespace StoneShelter{
             }
 #endif
 
-            if(m_data.ContainsKey(guid))
+			if(m_data.ContainsKey(guid))
                 return m_data[guid];
             return null;
 		}
@@ -89,7 +110,6 @@ namespace StoneShelter{
             // Generate a new GUID
             m_guid = Guid.NewGuid().ToString();
 
-#region prefab + editor
 #if UNITY_EDITOR
 			// If this is part of a prefab we want to override the property of the instance to save the GUID correctly
 			if(PrefabUtility.IsPartOfNonAssetPrefabInstance(this))
@@ -100,7 +120,6 @@ namespace StoneShelter{
 
             Debug.Log("<color=yellow>[" + gameObject.name + "(" + this.GetType().Name + ")]</color> Generated new GUID", gameObject);
 #endif
-#endregion
 		}
 
         /// <summary>
@@ -110,7 +129,6 @@ namespace StoneShelter{
             // Reset the GUID
             m_guid = "";
 
-            #region prefab + editor
 #if UNITY_EDITOR
 			// If this is part of a prefab we want to override the property of the instance to save the GUID correctly
 			if(PrefabUtility.IsPartOfNonAssetPrefabInstance(this))
@@ -121,11 +139,10 @@ namespace StoneShelter{
 
             Debug.Log("<color=yellow>[" + gameObject.name + "(" + this.GetType().Name + ")]</color> GUID reset", gameObject);
 #endif
-            #endregion
 		}
 
 
-        #region context menu + editor
+		#region context menu + editor
 #if UNITY_EDITOR
 		[MenuItem("CONTEXT/GUID/Generate GUID")]
         protected static void GenerateGUIDStatic(MenuCommand command){
@@ -152,7 +169,7 @@ namespace StoneShelter{
             EditorUtility.SetDirty(this);
 
             Debug.unityLogger.logEnabled = false;
-            foreach(GUID guid in Resources.FindObjectsOfTypeAll<GUID>()) {
+            foreach(GUID guid in GameObject.FindObjectsOfType<GUID>(true)) {
                 // Check if it is part of a prefab instance and if it doesn't already have a guid
                 if(!guid.m_guidPrefab || !PrefabUtility.IsPartOfNonAssetPrefabInstance(guid) || PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(guid) != assetPath)
                     continue;
@@ -172,7 +189,7 @@ namespace StoneShelter{
             if(PrefabStageUtility.GetCurrentPrefabStage() != null)
                 return;
 
-            foreach(GUID gd in Resources.FindObjectsOfTypeAll<GUID>()) {
+            foreach(GUID gd in GameObject.FindObjectsOfType<GUID>(true)) {
                 // Check if it is part of a prefab instance and if it doesn't already have a guid
                 if(!gd.m_guidPrefab || gd.m_guid != autogenerateValue || !PrefabUtility.IsPartOfNonAssetPrefabInstance(gd))
                     continue;
@@ -180,6 +197,6 @@ namespace StoneShelter{
             }
         }
 #endif
-        #endregion
-    }
+		#endregion
+	}
 }
