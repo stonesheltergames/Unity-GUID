@@ -6,8 +6,11 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 #endif
 using UnityEngine;
+#if UNITY_EDITOR
+using System.Linq;
+#endif
 
-namespace StoneShelter{
+namespace StoneShelter {
     [AddComponentMenu("Stone Shelter/Core/GUID")]
     public class GUID : MonoBehaviour{
         // Static data
@@ -83,14 +86,12 @@ namespace StoneShelter{
 
 
 		protected void Reset(){
-            #region prefab
 #if UNITY_EDITOR
 			if(PrefabStageUtility.GetCurrentPrefabStage() != null || PrefabUtility.IsPartOfPrefabAsset(this)){
                 m_guid = autogenerateValue;
                 return;
             }
 #endif
-            #endregion
 
             // Generate a new GUID
 			GenerateGUID();
@@ -142,7 +143,7 @@ namespace StoneShelter{
 		}
 
 
-		#region context menu + editor
+		#region Context menu + editor
 #if UNITY_EDITOR
 		[MenuItem("CONTEXT/GUID/Generate GUID")]
         protected static void GenerateGUIDStatic(MenuCommand command){
@@ -189,7 +190,7 @@ namespace StoneShelter{
             if(PrefabStageUtility.GetCurrentPrefabStage() != null)
                 return;
 
-            foreach(GUID gd in GameObject.FindObjectsOfType<GUID>(true)) {
+            foreach(GUID gd in GameObject.FindObjectsByType<GUID>(FindObjectsInactive.Include, FindObjectsSortMode.None)) {
                 // Check if it is part of a prefab instance and if it doesn't already have a guid
                 if(!gd.m_guidPrefab || gd.m_guid != autogenerateValue || !PrefabUtility.IsPartOfNonAssetPrefabInstance(gd))
                     continue;
