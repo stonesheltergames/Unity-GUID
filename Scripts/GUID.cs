@@ -36,7 +36,7 @@ namespace StoneShelter {
 			void Scene(){
 				var guids = GameObject.FindObjectsOfType<GUID>(true).Where(g => g.guid != "" && g.guid != autogenerateValue);
 				foreach(var guid in guids) {
-					if(guids.Any(g => g.guid == guid.guid && g.GetInstanceID() != guid.GetInstanceID())) {
+					if(guids.Any(g => g.guid == guid.guid && g.GetEntityId() != guid.GetEntityId())) {
 						Debug.LogWarning(nameof(Component) + " " + guid.GetType().Name + " on " + nameof(GameObject) + " '" + guid.gameObject.name + "' has a duplicate " + nameof(GUID) + ", generating a new one", guid.gameObject);
 						
 						Debug.unityLogger.logEnabled = false;
