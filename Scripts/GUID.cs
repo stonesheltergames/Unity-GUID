@@ -36,7 +36,11 @@ namespace StoneShelter {
 			void Scene(){
 				var guids = GameObject.FindObjectsOfType<GUID>(true).Where(g => g.guid != "" && g.guid != autogenerateValue);
 				foreach(var guid in guids) {
+#if UNITY_6000_4_OR_NEWER
 					if(guids.Any(g => g.guid == guid.guid && g.GetEntityId() != guid.GetEntityId())) {
+#else
+					if(guids.Any(g => g.guid == guid.guid && g.GetInstanceID() != guid.GetInstanceID())) {
+#endif
 						Debug.LogWarning(nameof(Component) + " " + guid.GetType().Name + " on " + nameof(GameObject) + " '" + guid.gameObject.name + "' has a duplicate " + nameof(GUID) + ", generating a new one", guid.gameObject);
 						
 						Debug.unityLogger.logEnabled = false;
@@ -48,12 +52,12 @@ namespace StoneShelter {
 		}
 #endif
 
-		/// <summary>
-		/// Finds an object by its GUID
-		/// </summary>
-		/// <param name="guid">unique identifier</param>
-		/// <returns>GUID if found, null otherwise</returns>
-		public static GUID Find(string guid){
+        /// <summary>
+        /// Finds an object by its GUID
+        /// </summary>
+        /// <param name="guid">unique identifier</param>
+        /// <returns>GUID if found, null otherwise</returns>
+        public static GUID Find(string guid){
 #if UNITY_EDITOR
 			if(!EditorApplication.isPlaying){
                 foreach(GUID gd in GameObject.FindObjectsOfType<GUID>(true)) {
